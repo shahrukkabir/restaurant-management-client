@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import SectionTitle from '../../../Components/SectionTitle/SectionTitle';
-import Category from './../Category/Category';
 import MenuItem from '../../Shared/MenuItem';
 
 const PopularMenu = () => {
@@ -22,6 +21,9 @@ const PopularMenu = () => {
                     menu.map(item => <MenuItem item={item} key={item._id}></MenuItem>)
                 }
             </div>
+            <button className="text-base flex mt-8 mx-auto font-semibold text-white relative px-6 pb-2 border-b-4 border-b-gray-400 rounded-b-3xl">
+                VIEW FULL MENU
+            </button>
         </section>
     );
 };
