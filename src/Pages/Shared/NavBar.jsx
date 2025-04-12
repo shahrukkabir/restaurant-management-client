@@ -3,7 +3,7 @@ import { FaShoppingCart, FaUserCircle } from "react-icons/fa";
 
 const Navbar = () => {
   return (
-    <div className="w-full bg-black bg-opacity-20 text-white shadow-md">
+    <div className="fixed w-full z-10 bg-opacity-30 max-w-7xl bg-black text-white shadow-md">
       <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
         {/* Logo */}
         <div className="text-xl font-bold">
