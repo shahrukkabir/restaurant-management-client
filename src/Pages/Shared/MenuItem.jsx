@@ -5,10 +5,7 @@ const MenuItem = ({ item }) => {
 
     return (
         <div className="flex items-center gap-5 mb-8">
-            <img
-                src={image}
-                className="w-16 h-16 rounded-full"
-            />
+            <img src={image} className="w-16 h-16 rounded-full"/>
             <div className="flex-1 border-b border-dashed pb-2">
                 <div className="flex justify-between items-center">
                     <h4 className="uppercase text-white-800 font-semibold">{name}</h4>
