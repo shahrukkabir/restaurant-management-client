@@ -35,7 +35,7 @@ const Menu = () => {
             {/* dessert menu items */}
             <MenuCategory items={pizza} title={"PIZZA"} img={img4} description={"Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."} ></MenuCategory>
             {/* salads menu items */}
-            <MenuCategory items={salad} title={"SALADS"} img={img5} description={"Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."} ></MenuCategory>
+            <MenuCategory items={salad} title={"SALAD"} img={img5} description={"Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."} ></MenuCategory>
             {/* salads menu items */}
             <MenuCategory items={soup} title={"SOUPS"} img={img6} description={"Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."} ></MenuCategory>
             
