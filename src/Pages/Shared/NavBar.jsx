@@ -17,10 +17,10 @@ const Navbar = () => {
                 {/* Navigation Links */}
                 <div className="hidden md:flex items-center gap-6 text-sm uppercase font-semibold">
                     <NavLink to="/" className={navLinkStyle}>Home</NavLink>
-                    <NavLink to="/contact" className={navLinkStyle}>Contact Us</NavLink>
-                    <NavLink to="/dashboard" className={navLinkStyle}>Dashboard</NavLink>
                     <NavLink to="/menu" className={navLinkStyle}>Our Menu</NavLink>
-                    <NavLink to="/shop" className={navLinkStyle}>Our Shop</NavLink>
+                    <NavLink to="/shop/salad" className={navLinkStyle}>Our Shop</NavLink>
+                    <NavLink to="/dashboard" className={navLinkStyle}>Dashboard</NavLink>
+                    <NavLink to="/contact" className={navLinkStyle}>Contact Us</NavLink>
                 </div>
 
                 {/* Right Icons */}
