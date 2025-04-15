@@ -2,7 +2,7 @@ import React from 'react';
 
 const FoodCard = ({ item }) => {
     return (
-        <div className="max-w-xs mx-auto rounded overflow-hidden shadow-md border bg-white">
+        <div className="max-w-xs mx-auto rounded shadow-md border bg-white">
             <div className="relative">
                 <img src={item.image} alt={item.name} className="w-full h-52 object-cover" />
                 <span className="absolute top-2 right-2 bg-black text-white text-sm font-semibold px-3 py-1 rounded">

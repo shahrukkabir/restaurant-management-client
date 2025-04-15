@@ -19,8 +19,8 @@ const Navbar = () => {
                     <NavLink to="/" className={navLinkStyle}>Home</NavLink>
                     <NavLink to="/menu" className={navLinkStyle}>Our Menu</NavLink>
                     <NavLink to="/shop/salad" className={navLinkStyle}>Our Shop</NavLink>
-                    <NavLink to="/dashboard" className={navLinkStyle}>Dashboard</NavLink>
                     <NavLink to="/contact" className={navLinkStyle}>Contact Us</NavLink>
+                    <NavLink to="/login" className={navLinkStyle}>Login</NavLink>
                 </div>
 
                 {/* Right Icons */}
