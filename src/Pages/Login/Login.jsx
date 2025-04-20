@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import bgimg from '../../assets/others/authentication.png';
 import img from '../../assets/others/authentication1.png';
 import { FaGithub, FaGoogle, FaFacebookF } from 'react-icons/fa';
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { LoadCanvasTemplate, loadCaptchaEnginge, validateCaptcha } from 'react-simple-captcha';
+import { AuthContext } from '../../provider/AuthProvider';
 
 const Login = () => {
     const [captchaInput, setCaptchaInput] = useState('');
@@ -10,13 +12,29 @@ const Login = () => {
     const [isCaptchaVerified, setIsCaptchaVerified] = useState(false);
 
     useEffect(() => {
-        loadCaptchaEnginge(6); // generate captcha of 6 characters
+        loadCaptchaEnginge(6);
     }, []);
 
     const handleCaptchaChange = (e) => {
         setCaptchaInput(e.target.value);
         setCaptchaError('');
-        setIsCaptchaVerified(false); // reset validation when user starts typing
+        setIsCaptchaVerified(false);
+    };
+
+    const { signInUser } = useContext(AuthContext);
+
+    const auth = getAuth();
+    const provider = new GoogleAuthProvider();
+
+    const handleGoogleSignIn = () => {
+        signInWithPopup(auth, provider)
+            .then((result) => {
+                console.log("Google Sign-In Successful:", result.user);
+                navigate(from);
+            })
+            .catch((error) => {
+                console.error("Google Sign-In Error:", error);
+            });
     };
 
     const handleLogin = e => {
@@ -28,14 +46,24 @@ const Login = () => {
             return;
         }
 
-        setIsCaptchaVerified(true); // captcha matched!
+        setIsCaptchaVerified(true);
 
         const form = e.target;
         const email = form.email.value;
         const password = form.password.value;
 
+        signInUser(email, password)
+            .then(result => {
+                console.log('Sign In', result)
+
+            })
+            .catch(error => {
+                console.log(error);
+
+            })
+
         console.log("Email:", email, "Password:", password);
-        // proceed with your login logic
+
     };
 
     return (
@@ -75,24 +103,21 @@ const Login = () => {
                             />
                             {captchaError && <p className="text-red-600 text-sm mt-1">{captchaError}</p>}
                         </div>
-                        <button
-                            type="submit"
-                            className="btn w-full h-12 text-base text-white border-none shadow-md"
-                            style={{ backgroundColor: 'rgba(209, 160, 84, 0.8)' }}
-                        >
+                        <button type="submit" className="btn w-full h-12 text-base text-white border-none shadow-md"
+                            style={{ backgroundColor: 'rgba(209, 160, 84, 0.8)' }}>
                             Sign In
                         </button>
                     </form>
 
                     <div className="text-center mt-4">
                         <p className="text-sm text-gray-600">
-                            New here? <a href="#" className="text-yellow-700 font-semibold hover:underline">Create Account</a>
+                            New here? <a href="/signup" className="text-yellow-700 font-semibold hover:underline">Create Account</a>
                         </p>
 
                         <p className="mt-4 text-sm text-gray-600">Or sign in with</p>
 
                         <div className="flex justify-center gap-4 mt-2">
-                            <button className="btn btn-circle bg-white shadow text-gray-700 text-xl">
+                            <button onClick={handleGoogleSignIn} className="btn btn-circle bg-white shadow text-gray-700 text-xl">
                                 <FaFacebookF />
                             </button>
                             <button className="btn btn-circle bg-white shadow text-gray-700 text-xl">

@@ -21,6 +21,7 @@ const Navbar = () => {
                     <NavLink to="/shop/salad" className={navLinkStyle}>Our Shop</NavLink>
                     <NavLink to="/contact" className={navLinkStyle}>Contact Us</NavLink>
                     <NavLink to="/login" className={navLinkStyle}>Login</NavLink>
+                    <NavLink to="/signup" className={navLinkStyle}>SignUp</NavLink>
                 </div>
 
                 {/* Right Icons */}
