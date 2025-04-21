@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from 'firebase/auth';
+import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from 'firebase/auth';
 import axios from 'axios';
 import { createContext } from "react";
 import auth from '../firebase/firebase.config'
@@ -33,6 +33,12 @@ const AuthProvider = ({ children }) => {
         return signInWithPopup(auth, provider)
     }
 
+    const updateUserProfile = (name, photo) => {
+        return updateProfile(auth.currentUser, {
+            displayName: name, photoURL: photo
+        });
+    }
+
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, currentUser => {
             setUser(currentUser);
@@ -44,39 +50,15 @@ const AuthProvider = ({ children }) => {
         }
     }, [])
 
-    // useEffect(() => {
-    // const unsubscribe = onAuthStateChanged(auth, currentUser => {
-    //     setUser(currentUser);
-    //     // console.log("State Captured",currentUser);
-
-    //     if (currentUser?.email) {
-    //         const user = { email: currentUser.email }
-    //         axios.post('https://job-portal-server-eight-tawny.vercel.app/jwt', user, { withCredentials: true })
-    //             .then(res => {
-    //                 console.log("Login", res.data);
-    //                 setLoading(false);
-    //             })
-    //     }
-    //     else {
-    //         axios.post('https://job-portal-server-eight-tawny.vercel.app/logout', {}, { withCredentials: true })
-    //             .then(res => {
-    //                 console.log("Logout", res.data);
-    //                 setLoading(false);
-    //             })
-    //     }
-    // })
-    // return () => {
-    //     unsubscribe();
-    // }
-    // }, [])
-
     const authInfo = {
         user,
+        setUser,
         loading,
         createUser,
         signInUser,
         signOutUser,
-        signUpWithGoogle
+        signUpWithGoogle,
+        updateUserProfile
     }
 
     return (
