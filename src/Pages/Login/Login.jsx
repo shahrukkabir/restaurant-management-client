@@ -2,9 +2,11 @@ import React, { useContext, useEffect, useState } from 'react';
 import bgimg from '../../assets/others/authentication.png';
 import img from '../../assets/others/authentication1.png';
 import { FaGithub, FaGoogle, FaFacebookF } from 'react-icons/fa';
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { LoadCanvasTemplate, loadCaptchaEnginge, validateCaptcha } from 'react-simple-captcha';
 import { AuthContext } from '../../provider/AuthProvider';
+
+// import { AuthContext } from '../../provider/AuthProvider';
+// import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 const Login = () => {
     const [captchaInput, setCaptchaInput] = useState('');
@@ -21,21 +23,20 @@ const Login = () => {
         setIsCaptchaVerified(false);
     };
 
-    const { signInUser } = useContext(AuthContext);
 
-    const auth = getAuth();
-    const provider = new GoogleAuthProvider();
+    const { signInUser, signUpWithGoogle } = useContext(AuthContext);
 
     const handleGoogleSignIn = () => {
-        signInWithPopup(auth, provider)
+        signUpWithGoogle()
             .then((result) => {
                 console.log("Google Sign-In Successful:", result.user);
-                navigate(from);
+
             })
             .catch((error) => {
                 console.error("Google Sign-In Error:", error);
-            });
-    };
+
+            })
+    }
 
     const handleLogin = e => {
         e.preventDefault();
@@ -55,11 +56,9 @@ const Login = () => {
         signInUser(email, password)
             .then(result => {
                 console.log('Sign In', result)
-
             })
             .catch(error => {
                 console.log(error);
-
             })
 
         console.log("Email:", email, "Password:", password);
@@ -117,16 +116,17 @@ const Login = () => {
                         <p className="mt-4 text-sm text-gray-600">Or sign in with</p>
 
                         <div className="flex justify-center gap-4 mt-2">
-                            <button onClick={handleGoogleSignIn} className="btn btn-circle bg-white shadow text-gray-700 text-xl">
+                            <button className="btn btn-circle bg-white shadow text-gray-700 text-xl">
                                 <FaFacebookF />
                             </button>
-                            <button className="btn btn-circle bg-white shadow text-gray-700 text-xl">
+                            <button onClick={handleGoogleSignIn} className="btn btn-circle bg-white shadow text-gray-700 text-xl">
                                 <FaGoogle />
                             </button>
                             <button className="btn btn-circle bg-white shadow text-gray-700 text-xl">
                                 <FaGithub />
                             </button>
                         </div>
+
                     </div>
 
                 </div>
