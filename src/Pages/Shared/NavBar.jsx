@@ -24,6 +24,7 @@ const Navbar = () => {
     const toggleUserInfo = () => {
         setShowUserInfo(!showUserInfo);
     };
+    const cartItems = 3;
 
     return (
         <div className="fixed w-full z-10 bg-opacity-30 max-w-7xl bg-black text-white shadow-md">
@@ -47,7 +48,14 @@ const Navbar = () => {
 
                 {/* Right Icons */}
                 <div className="relative flex items-center gap-4">
-                    <FaShoppingCart className="text-xl cursor-pointer" />
+                    <div className="relative">
+                        <FaShoppingCart className="text-xl cursor-pointer" />
+                        {cartItems > 0 && (
+                            <span className="absolute -top-4 -right-3 bg-yellow-400 text-black text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
+                                {cartItems}
+                            </span>
+                        )}
+                    </div>
 
                     {loading ? (<Loading></Loading>) : user ? (
                         <div className="relative">

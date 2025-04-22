@@ -16,7 +16,7 @@ const SignUp = () => {
                 const user = result.user;
                 setUser(user);
                 toast.success("Successfully Registered!");
-                navigate("/");
+                navigate("/", { replace: true });
             })
             .catch((error) => {
                 toast.error(error.message);
@@ -46,7 +46,7 @@ const SignUp = () => {
                     .then(() => {
                         toast.success("Successfully Registered!");
                         form.reset();
-                        navigate("/");
+                        navigate("/", { replace: true });
                     })
                     .catch((error) => {
                         toast.error("Profile Update Failed: " + error.message);
@@ -55,6 +55,9 @@ const SignUp = () => {
             .catch((error) => {
                 toast.error("Registration Failed: " + error.message);
             });
+
+        const formData = { name, email, password, photo };
+        console.log("Form submitted:", formData);
     };
 
     return (
