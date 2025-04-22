@@ -2,14 +2,16 @@ import React from 'react';
 import useAuth from './../../hooks/useAuth';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import axios from 'axios';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
+// import axios from 'axios';
 
 const FoodCard = ({ item }) => {
     const { user } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
-    
+    const axiosSecure = useAxiosSecure();
+
     const handleAddToCart = food => {
         if (user && user.email) {
             //send cart to the database
@@ -20,15 +22,25 @@ const FoodCard = ({ item }) => {
                 image: item.image,
                 price: item.price
             }
-            axios.post('http://localhost:5000/carts',cartItem)
-            .then(res => {
-                console.log(res.data);
-            })
+            // axios.post('http://localhost:5000/carts', cartItem)
+            
+            axiosSecure.post('/carts', cartItem)
+                .then(res => {
+                    if (res.data.insertedId) {
+                        toast.success("Item added to cart!");
+                    }
+                    console.log(res.data);
+                })
+                .catch(err => {
+                    console.error(err);
+                    toast.error("Failed to add item. Please try again.");
+                });
+
         }
         else {
             toast.warning("Please log in to add items to the cart.");
             navigate("/login", { state: { from: location } });
-            console.log(location);     
+            console.log(location);
         }
     }
     return (

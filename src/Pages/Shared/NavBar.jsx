@@ -3,11 +3,12 @@ import { FaShoppingCart, FaUserCircle } from "react-icons/fa";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../provider/AuthProvider";
 import Loading from "../../Components/Loading/Loading";
+import useCart from "../../hooks/useCart";
 
 const Navbar = () => {
     const { user, signOutUser, loading } = useContext(AuthContext);
     const [showUserInfo, setShowUserInfo] = useState(false);
-
+    const [cart] = useCart();
     const handleSignOut = () => {
         signOutUser()
             .then(() => {
@@ -24,6 +25,7 @@ const Navbar = () => {
     const toggleUserInfo = () => {
         setShowUserInfo(!showUserInfo);
     };
+
     const cartItems = 3;
 
     return (
@@ -50,14 +52,14 @@ const Navbar = () => {
                 <div className="relative flex items-center gap-4">
                     <div className="relative">
                         <FaShoppingCart className="text-xl cursor-pointer" />
-                        {cartItems > 0 && (
+                        {cart.length > 0 && (
                             <span className="absolute -top-4 -right-3 bg-yellow-400 text-black text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
-                                {cartItems}
+                                {cart.length}
                             </span>
                         )}
                     </div>
 
-                    {loading ? (<Loading></Loading>) : user ? (
+                    {loading ? (<span className="loading loading-spinner text-warning"></span>) : user ? (
                         <div className="relative">
                             <button onClick={toggleUserInfo} className="focus:outline-none">
                                 <FaUserCircle className="text-2xl cursor-pointer" />
