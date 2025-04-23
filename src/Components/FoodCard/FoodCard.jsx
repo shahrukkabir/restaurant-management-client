@@ -3,14 +3,16 @@ import useAuth from './../../hooks/useAuth';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
-// import axios from 'axios';
+import useCart from '../../hooks/useCart';
+// import axios from 'axios';i
 
 const FoodCard = ({ item }) => {
     const { user } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
-    const from = location.state?.from?.pathname || "/";
     const axiosSecure = useAxiosSecure();
+
+    const [, refetch] = useCart();
 
     const handleAddToCart = food => {
         if (user && user.email) {
@@ -23,12 +25,14 @@ const FoodCard = ({ item }) => {
                 price: item.price
             }
             // axios.post('http://localhost:5000/carts', cartItem)
-            
+
             axiosSecure.post('/carts', cartItem)
                 .then(res => {
                     if (res.data.insertedId) {
                         toast.success("Item added to cart!");
                     }
+                    //refetch cart to update the cart items count
+                    refetch();
                     console.log(res.data);
                 })
                 .catch(err => {

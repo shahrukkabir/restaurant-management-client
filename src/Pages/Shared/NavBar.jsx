@@ -2,7 +2,6 @@ import { NavLink } from "react-router-dom";
 import { FaShoppingCart, FaUserCircle } from "react-icons/fa";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../provider/AuthProvider";
-import Loading from "../../Components/Loading/Loading";
 import useCart from "../../hooks/useCart";
 
 const Navbar = () => {
