@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { FaShoppingCart, FaUserCircle } from "react-icons/fa";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../provider/AuthProvider";
@@ -25,8 +25,6 @@ const Navbar = () => {
         setShowUserInfo(!showUserInfo);
     };
 
-    const cartItems = 3;
-
     return (
         <div className="fixed w-full z-10 bg-opacity-30 max-w-7xl bg-black text-white shadow-md">
             <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
@@ -49,14 +47,14 @@ const Navbar = () => {
 
                 {/* Right Icons */}
                 <div className="relative flex items-center gap-4">
-                    <div className="relative">
+                    <Link to="/dashboard/cart" className="relative">
                         <FaShoppingCart className="text-xl cursor-pointer" />
                         {cart.length > 0 && (
                             <span className="absolute -top-4 -right-3 bg-yellow-400 text-black text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
                                 {cart.length}
                             </span>
                         )}
-                    </div>
+                    </Link>
 
                     {loading ? (<span className="loading loading-spinner text-warning"></span>) : user ? (
                         <div className="relative">
