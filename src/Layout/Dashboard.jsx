@@ -81,7 +81,7 @@ const Dashboard = () => {
             </div>
 
             {/* Main Content */}
-            <div className="flex-1 bg-[#F6F6F6] p-8">
+            <div className="flex-1 p-8">
                 <Outlet />
             </div>
         </div>
