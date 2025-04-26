@@ -8,16 +8,17 @@ import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
 import { LoadCanvasTemplate, loadCaptchaEnginge, validateCaptcha } from 'react-simple-captcha';
 import { AuthContext } from '../../provider/AuthProvider';
-
+import useAxiosPublic from '../../hooks/useAxiosPublic';
 
 const Login = () => {
+    const axiosPublic = useAxiosPublic();
     const [captchaInput, setCaptchaInput] = useState('');
     const [captchaError, setCaptchaError] = useState('');
 
     useEffect(() => {
         loadCaptchaEnginge(6);
     }, []);
-
+    
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
@@ -32,6 +33,11 @@ const Login = () => {
     const handleGoogleSignIn = () => {
         signUpWithGoogle()
             .then((result) => {
+                const userInfo = {
+                    email: result.user?.email,
+                    name: result.user?.displayName
+                }
+                axiosPublic.post('/users', userInfo)
                 const user = result.user;
                 setUser(user);
                 toast.success("Successfully Logged In!");

@@ -6,17 +6,28 @@ import { AuthContext } from '../../provider/AuthProvider';
 import { Helmet } from 'react-helmet-async';
 import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
+import useAxiosPublic from '../../hooks/useAxiosPublic';
+import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
+    const axiosPublic = useAxiosPublic();
+    const navigate = useNavigate();
     const { createUser, signUpWithGoogle, updateUserProfile, setUser } = useContext(AuthContext);
 
     const handleGoogleSignUp = () => {
         signUpWithGoogle()
             .then((result) => {
+                const userInfo = {
+                    email: result.user?.email,
+                    name: result.user?.displayName
+                }
                 const user = result.user;
                 setUser(user);
-                toast.success("Successfully Registered!");
-                navigate("/", { replace: true });
+                axiosPublic.post('/users', userInfo)
+                    .then(res => {
+                        toast.success("Successfully Registered!");
+                        navigate("/", { replace: true });
+                    })
             })
             .catch((error) => {
                 toast.error(error.message);
@@ -44,9 +55,19 @@ const SignUp = () => {
                 setUser(user);
                 updateUserProfile(name, photo)
                     .then(() => {
-                        toast.success("Successfully Registered!");
-                        form.reset();
-                        navigate("/", { replace: true });
+                        const userInfo = {
+                            name,
+                            email
+                        };
+                        axiosPublic.post('/users', userInfo)
+                            .then(res => {
+                                if (res.data.insertedId) {
+                                    toast.success("Successfully Registered!");
+                                    form.reset();
+                                    navigate("/", { replace: true });
+                                }
+                            })
+
                     })
                     .catch((error) => {
                         toast.error("Profile Update Failed: " + error.message);
@@ -55,9 +76,6 @@ const SignUp = () => {
             .catch((error) => {
                 toast.error("Registration Failed: " + error.message);
             });
-
-        const formData = { name, email, password, photo };
-        console.log("Form submitted:", formData);
     };
 
     return (

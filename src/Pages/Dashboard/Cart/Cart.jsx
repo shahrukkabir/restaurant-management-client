@@ -10,11 +10,11 @@ const Cart = () => {
     const axiosSecure = useAxiosSecure();
 
     console.log(cart);
-    
+
 
     const handleDelete = (id) => {
         console.log(id);
-        
+
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -38,11 +38,11 @@ const Cart = () => {
 
     return (
         <div className="p-4 min-h-screen text-base-content">
-            <div className="text-center -mt-16">
+            <div className="text-center -my-16">
                 <SectionTitle subHeading={"---My Cart---"} heading={"WANNA ADD MORE?"}></SectionTitle>
             </div>
 
-            <div className="bg-base-100 rounded-xl shadow-2xl p-8 max-w-6xl mx-auto">
+            <div className="bg-base-100  rounded-xl shadow-2xl p-8 max-w-6xl mx-auto">
                 <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
                     <h2 className="text-xl font-semibold">Total Orders: {cart.length}</h2>
                     <h2 className="text-xl font-semibold">Total Price: ${totalPrice.toFixed(2)}</h2>
@@ -51,13 +51,13 @@ const Cart = () => {
 
                 <div>
                     <table className="table w-full">
-                        <thead className="bg-[#D1A054] text-base-content">
-                            <tr>
-                                <th>#</th>
+                        <thead>
+                            <tr className="bg-[#D1A054] text-white rounded-t-xl">
+                                <th className="rounded-tl-xl">#</th>
                                 <th>Item Image</th>
                                 <th>Item Name</th>
                                 <th>Price</th>
-                                <th>Action</th>
+                                <th className="rounded-tr-xl">ACTION</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -85,3 +85,5 @@ const Cart = () => {
 };
 
 export default Cart;
+
+
