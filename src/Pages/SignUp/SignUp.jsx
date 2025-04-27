@@ -67,7 +67,6 @@ const SignUp = () => {
                                     navigate("/", { replace: true });
                                 }
                             })
-
                     })
                     .catch((error) => {
                         toast.error("Profile Update Failed: " + error.message);

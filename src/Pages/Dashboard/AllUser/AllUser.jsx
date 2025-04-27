@@ -4,13 +4,14 @@ import SectionTitle from '../../../Components/SectionTitle/SectionTitle';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import Swal from 'sweetalert2';
-import { axiosSecure } from '../../../hooks/useAxiosSecure';
+import useAxiosSecure, { axiosSecure } from '../../../hooks/useAxiosSecure';
 
 const AllUser = () => {
+    const axiosSecure = useAxiosSecure();
     const { data: users = [], refetch } = useQuery({
         queryKey: ['users'],
         queryFn: async () => {
-            const res = await axios.get('http://localhost:5000/users');
+            const res = await axiosSecure.get('/users');
             return res.data;
         }
     });

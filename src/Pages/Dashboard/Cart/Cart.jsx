@@ -9,8 +9,6 @@ const Cart = () => {
     const totalPrice = cart.reduce((total, item) => total + item.price, 0);
     const axiosSecure = useAxiosSecure();
 
-    console.log(cart);
-
 
     const handleDelete = (id) => {
         console.log(id);
@@ -23,7 +21,7 @@ const Cart = () => {
             confirmButtonColor: "#6c757d",
             cancelButtonColor: "#d33",
             confirmButtonText: "Yes, delete it!",
-        })
+        }) 
             .then((result) => {
                 if (result.isConfirmed) {
                     axiosSecure.delete(`/carts/${id}`).then((res) => {
