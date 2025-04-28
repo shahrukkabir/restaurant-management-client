@@ -3,9 +3,9 @@ import Loading from "../Components/Loading/Loading";
 import useAuth from '../hooks/useAuth';
 import useAdmin from '../hooks/useAdmin ';
 
-const AdminRoute = () => {
+const AdminRoute = ({children}) => {
 
-    const [user, loading] = useAuth();
+    const {user , loading} = useAuth();
     const [isAdmin, isAdminLoading] = useAdmin();
 
     const location = useLocation();

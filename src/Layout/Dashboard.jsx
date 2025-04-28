@@ -10,7 +10,7 @@ const Dashboard = () => {
     return (
         <div className="flex">
             {/* Sidebar */}
-            <div className="w-64 min-h-screen bg-[#D1A054] text-black">
+            <div className="w-64 py-14 min-h-screen bg-[#D1A054] text-black">
                 <div className="p-6 font-bold text-xl">
                     BISTRO BOSS <br />
                     <span className="text-sm font-normal tracking-widest">
