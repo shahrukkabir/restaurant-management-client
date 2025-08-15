@@ -11,6 +11,10 @@ import PrivateRoute from './PrivateRoute';
 import AllUser from "../Pages/Dashboard/AllUser/AllUser";
 import AddItems from "../Pages/Dashboard/AddItems/AddItems";
 import AdminRoute from './AdminRoute';
+import ManageItems from "../Pages/Dashboard/ManageItems/ManageItems";
+import ManageBookings from "../Pages/Dashboard/ManageBookings/ManageBookings";
+import Contact from "../Pages/Contact/Contact";
+import UpdateItem from "../Pages/Dashboard/UpdateItem/UpdateItem";
 
 const router = createBrowserRouter([
   {
@@ -27,7 +31,7 @@ const router = createBrowserRouter([
         element: <Menu></Menu>
       },
       {
-        path: 'shop/:category', 
+        path: 'shop/:category',
         element: <Order></Order>
       },
       {
@@ -37,26 +41,42 @@ const router = createBrowserRouter([
       {
         path: 'signup',
         element: <SignUp></SignUp>
+      },
+      {
+        path: 'contact',
+        element: <Contact></Contact>
       }
     ]
   },
   {
-    path:'dashboard',
+    path: 'dashboard',
     element: <PrivateRoute><Dashboard></Dashboard></PrivateRoute>,
-    children:[
+    children: [
       {
-        path:'cart',
-        element:<Cart></Cart>
+        path: 'cart',
+        element: <Cart></Cart>
       },
 
       // admin routes
       {
         path: 'addItems',
-        // element: <AdminRoute><AddItems></AddItems></AdminRoute>
-        element: <AddItems></AddItems>
+        element: <AdminRoute><AddItems></AddItems></AdminRoute>
       },
       {
-        path:'allUsers',
+        path: 'manageItems',
+        element: <AdminRoute><ManageItems></ManageItems></AdminRoute>
+      },
+      {
+        path: 'updateItem/:id',
+        element: <AdminRoute><UpdateItem></UpdateItem></AdminRoute>,
+        loader: ({ params }) => fetch(`http://localhost:5000/menu/${params.id}`)
+      },
+      {
+        path: 'ManageBookings',
+        element: <AdminRoute><ManageBookings></ManageBookings></AdminRoute>
+      },
+      {
+        path: 'allUsers',
         element: <AdminRoute><AllUser></AllUser></AdminRoute>
       }
     ]
