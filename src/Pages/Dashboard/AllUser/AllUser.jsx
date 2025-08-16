@@ -28,7 +28,7 @@ const AllUser = () => {
         })
             .then((result) => {
                 if (result.isConfirmed) {
-                    axios.delete(`http://localhost:5000/users/${id}`)
+                    axiosSecure.delete(`/users/${id}`)
                         .then(res => {
                             if (res.data.deletedCount > 0) {
                                 Swal.fire("Deleted!", "User has been deleted.", "success");
@@ -39,25 +39,40 @@ const AllUser = () => {
             });
     };
 
+
     const handleMakeAdmin = (id) => {
-        axiosSecure.patch(`/users/admin/${id}`)
-            .then(res => {
-                console.log(res.data);
-                if (res.data.modifiedCount > 0) {
-                    Swal.fire({
-                        position: 'top-end',
-                        icon: 'success',
-                        title: 'User promoted to Admin!',
-                        showConfirmButton: false,
-                        timer: 1500
+        Swal.fire({
+            title: "Are you sure?",
+            text: "Do you really want to make this user an Admin?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#6c757d",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, make Admin!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axiosSecure.patch(`/users/admin/${id}`)
+                    .then(res => {
+                        console.log(res.data);
+                        if (res.data.modifiedCount > 0) {
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'success',
+                                title: 'User promoted to Admin!',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                            refetch(); // Refresh the users list
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error making admin:', error);
                     });
-                    refetch(); // 👈 Refresh the users list
-                }
-            })
-            .catch(error => {
-                console.error('Error making admin:', error);
-            });
+            }
+        });
     };
+
+
 
 
     return (

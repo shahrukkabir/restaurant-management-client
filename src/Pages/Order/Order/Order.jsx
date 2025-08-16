@@ -22,12 +22,12 @@ const Order = () => {
 
   const getItemsForTab = () => {
     switch (activeTab) {
-      case 'salad': return data.filter(item => item.category === 'salad');
-      case 'pizza': return data.filter(item => item.category === 'pizza');
-      case 'soups': return data.filter(item => item.category === 'soup');
+      case 'salad':    return data.filter(item => item.category === 'salad');
+      case 'pizza':    return data.filter(item => item.category === 'pizza');
+      case 'soups':    return data.filter(item => item.category === 'soup');
       case 'desserts': return data.filter(item => item.category === 'dessert');
-      case 'drinks': return data.filter(item => item.category === 'drinks');
-      default: return [];
+      case 'drinks':   return data.filter(item => item.category === 'drinks');
+      default:         return [];
     }
   };
 
