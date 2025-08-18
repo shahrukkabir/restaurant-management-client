@@ -44,7 +44,6 @@ const UpdateItem = () => {
                 return;
             }
         }
-
         const updatedItem = {
             name: updatedName,
             category: updatedCategory,
@@ -53,7 +52,7 @@ const UpdateItem = () => {
             image: imageURL
         };
 
-        const result = await axiosSecure.patch(`/menu/${_id}`, updatedItem);
+        const result = await axiosSecure.patch(`/menu/${id}`, updatedItem);
 
         if (result.data.modifiedCount > 0) {
             toast.success("Item updated successfully!");
