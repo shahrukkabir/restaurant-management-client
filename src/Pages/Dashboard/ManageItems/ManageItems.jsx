@@ -12,7 +12,7 @@ const ManageItems = () => {
 
     const [menu, , refetch] = useMenu();
 
-    const handleDelete = (id) => {
+    const handleDelete = (item) => {
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -21,19 +21,18 @@ const ManageItems = () => {
             confirmButtonColor: "#6c757d",
             cancelButtonColor: "#d33",
             confirmButtonText: "Yes, delete it!",
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-                const res = await axiosSecure.delete(`/menu/${id}`);
-                console.log(res.data);
-
-                if (res.data.deletedCount > 0) {
-                    Swal.fire("Deleted!", "Item has been deleted.", "success");
-                    refetch(); // reload the updated list
-                } else {
-                    Swal.fire("Error!", "Failed to delete the item.", "error");
+        })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    axiosSecure.delete(`/menu/${item._id}`)
+                        .then(res => {
+                            if (res.data.deletedCount > 0) {
+                                Swal.fire("Deleted!", "User has been deleted.", "success");
+                                refetch(); // 👈 after delete, reload users
+                            }
+                        });
                 }
-            }
-        });
+            });
     };
 
     return (
@@ -76,7 +75,7 @@ const ManageItems = () => {
                                         </Link>
                                     </td>
                                     <td>
-                                        <button onClick={() => handleDelete(item._id)} className="btn bg-red-600 btn-sm text-white">
+                                        <button onClick={() => handleDelete(item)} className="btn bg-red-600 btn-sm text-white">
                                             <FaTrashAlt />
                                         </button>
                                     </td>
