@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLoaderData, useNavigate } from 'react-router-dom';
+import { useLoaderData, useNavigate, useParams } from 'react-router-dom';
 import SectionTitle from '../../../Components/SectionTitle/SectionTitle';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import useAxiosPublic from '../../../hooks/useAxiosPublic';
@@ -7,12 +7,10 @@ import { toast } from 'react-toastify';
 
 const UpdateItem = () => {
     const { id } = useParams();
-    const { name, category, price, recipe, image } = useLoaderData();;
+    const { name, category, price, recipe, image } = useLoaderData();
     const axiosSecure = useAxiosSecure();
     const axiosPublic = useAxiosPublic();
     const navigate = useNavigate();
-
-    console.log(useLoaderData());
 
 
     const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
@@ -100,12 +98,13 @@ const UpdateItem = () => {
                         <label className="block mb-2 font-semibold">Recipe Details*</label>
                         <textarea name="recipe" defaultValue={recipe} className="textarea textarea-bordered w-full bg-base-200" rows="5"></textarea>
                     </div>
-
                     <div>
+                        <label className="block mb-2 font-semibold">Current Image</label>
+                        <img src={image} alt="Current Recipe" className="w-40 h-40 object-cover rounded-lg mb-4" />
+
                         <label className="block mb-2 font-semibold">Upload New Image (optional)</label>
                         <input name="image" type="file" className="file-input file-input-bordered w-full bg-base-200" />
                     </div>
-
                     <div className="text-center">
                         <button type="submit" className="btn bg-gradient-to-r from-[#835D23] to-[#B58130] text-white px-10">
                             Update Recipe Details
