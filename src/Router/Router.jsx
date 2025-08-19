@@ -15,6 +15,7 @@ import ManageItems from "../Pages/Dashboard/ManageItems/ManageItems";
 import ManageBookings from "../Pages/Dashboard/ManageBookings/ManageBookings";
 import Contact from "../Pages/Contact/Contact";
 import UpdateItem from "../Pages/Dashboard/UpdateItem/UpdateItem";
+import Payment from "../Pages/Dashboard/Payment/Payment";
 
 const router = createBrowserRouter([
   {
@@ -78,6 +79,10 @@ const router = createBrowserRouter([
       {
         path: 'allUsers',
         element: <AdminRoute><AllUser></AllUser></AdminRoute>
+      },
+      {
+        path: 'payment',
+        element: <Payment></Payment>
       }
     ]
   }
