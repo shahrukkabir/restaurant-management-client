@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import useCart from './../../../hooks/useCart';
 import useAuth from '../../../hooks/useAuth';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const CheckoutForm = () => {
     const stripe = useStripe();
@@ -13,7 +15,7 @@ const CheckoutForm = () => {
     const { user } = useAuth();
     const [clientSecret, setClientSecret] = useState('')
     const [cart, refetch] = useCart();
-
+    const navigate = useNavigate();
     const totalPrice = cart.reduce((total, item) => total + item.price, 0)
 
 
@@ -68,7 +70,7 @@ const CheckoutForm = () => {
             }
         })
         if (confirmError) {
-            console.log('confirm error')    
+            console.log('confirm error')
         }
         else {
             console.log('payment intent', paymentIntent)
@@ -89,6 +91,20 @@ const CheckoutForm = () => {
 
                 const res = await axiosSecure.post('/payments', payment);
                 console.log('payment saved', res.data);
+                refetch();
+                if (res.data?.paymentResult?.insertedId) {
+                    toast.success("Thank you for Payment 💰", {
+                        position: "top-center",
+                        autoClose: 1500,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        theme: "colored",
+                    });
+
+                    navigate('/dashboard/paymentHistory');
+                }
             }
         }
     };
