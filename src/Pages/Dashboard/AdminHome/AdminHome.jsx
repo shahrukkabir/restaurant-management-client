@@ -2,15 +2,28 @@ import React from "react";
 import useAuth from "../../../hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
-import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis } from "recharts";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Legend,
+} from "recharts";
 import { Wallet, Users, ShoppingBag, Package } from "lucide-react";
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+const BAR_COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "red", "pink"];
 
 const AdminHome = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
 
+  // stats
   const { data: stats = {} } = useQuery({
     queryKey: ["admin-stats"],
     queryFn: async () => {
@@ -19,19 +32,63 @@ const AdminHome = () => {
     },
   });
 
-  const pieData = [
-    { name: "Users", value: stats.users || 0 },
-    { name: "Menu Items", value: stats.menuItems || 0 },
-    { name: "Orders", value: stats.orders || 0 },
-    { name: "Revenue", value: stats.revenue || 0 },
-  ];
+  // order-stats for charts
+  const { data: chartData = [] } = useQuery({
+    queryKey: ["order-stats"],
+    queryFn: async () => {
+      const res = await axiosSecure.get("/order-stats");
+      return res.data;
+    },
+  });
 
-  const barData = [
-    { name: "Users", count: stats.users || 0 },
-    { name: "Menu", count: stats.menuItems || 0 },
-    { name: "Orders", count: stats.orders || 0 },
-    { name: "Revenue", count: stats.revenue || 0 },
-  ];
+  // custom shape for bar chart
+  const getPath = (x, y, width, height) => {
+    return `M${x},${y + height}C${x + width / 3},${y + height} ${
+      x + width / 2
+    },${y + height / 3}
+        ${x + width / 2}, ${y}
+        C${x + width / 2},${y + height / 3} ${x + (2 * width) / 3},${
+      y + height
+    } ${x + width}, ${y + height}
+        Z`;
+  };
+  const TriangleBar = (props) => {
+    const { fill, x, y, width, height } = props;
+    return <path d={getPath(x, y, width, height)} stroke="none" fill={fill} />;
+  };
+
+  // pie chart labels
+  const RADIAN = Math.PI / 180;
+  const renderCustomizedLabel = ({
+    cx,
+    cy,
+    midAngle,
+    innerRadius,
+    outerRadius,
+    percent,
+  }) => {
+    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+    return (
+      <text
+        x={x}
+        y={y}
+        fill="white"
+        fontSize={12}
+        textAnchor={x > cx ? "start" : "end"}
+        dominantBaseline="central"
+      >
+        {`${(percent * 100).toFixed(0)}%`}
+      </text>
+    );
+  };
+
+  const pieChartData = chartData.map((data) => ({
+    name: data.category,
+    value: data.revenue,
+  }));
 
   return (
     <div className="p-6 space-y-6">
@@ -70,33 +127,60 @@ const AdminHome = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Bar Chart */}
         <div className="bg-white shadow-lg rounded-2xl p-6">
-          <h3 className="text-xl font-semibold mb-4">Statistics Overview</h3>
+          <h3 className="text-xl text-violet-500 font-semibold mb-4">Orders by Category</h3>
           <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={barData}>
-              <XAxis dataKey="name" />
+            <BarChart
+              data={chartData}
+              margin={{
+                top: 20,
+                right: 30,
+                left: 20,
+                bottom: 5,
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="category" />
               <YAxis />
-              <Bar dataKey="count" fill="#8884d8" radius={[10, 10, 0, 0]} />
+              <Bar
+                dataKey="quantity"
+                fill="#8884d8"
+                shape={<TriangleBar />}
+                label={{ position: "top" }}
+              >
+                {chartData.map((entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={BAR_COLORS[index % BAR_COLORS.length]}
+                  />
+                ))}
+              </Bar>
             </BarChart>
           </ResponsiveContainer>
         </div>
 
         {/* Pie Chart */}
         <div className="bg-white shadow-lg rounded-2xl p-6">
-          <h3 className="text-xl font-semibold mb-4">Data Distribution</h3>
+          <h3 className="text-xl text-violet-500 font-semibold mb-4">Revenue Distribution</h3>
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie
-                data={pieData}
+                data={pieChartData}
                 cx="50%"
                 cy="50%"
+                labelLine={false}
+                label={renderCustomizedLabel}
                 outerRadius={100}
+                fill="#8884d8"
                 dataKey="value"
-                label
               >
-                {pieData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                {pieChartData.map((entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={COLORS[index % COLORS.length]}
+                  />
                 ))}
               </Pie>
+              <Legend />
             </PieChart>
           </ResponsiveContainer>
         </div>
