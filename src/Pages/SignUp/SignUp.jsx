@@ -42,7 +42,7 @@ const SignUp = () => {
         const photo = form.photo.value;
         const password = form.password.value;
 
-        const passwordRegex = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,}$/;
+        const passwordRegex = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{7,}$/;
 
         if (!passwordRegex.test(password)) {
             Swal.fire('Error', 'Password must be at least 6 characters long, contain at least one uppercase letter, and one number.', 'error');

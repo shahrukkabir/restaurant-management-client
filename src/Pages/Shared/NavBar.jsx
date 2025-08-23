@@ -3,11 +3,13 @@ import { FaShoppingCart, FaUserCircle } from "react-icons/fa";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../provider/AuthProvider";
 import useCart from "../../hooks/useCart";
+import useAdmin from "../../hooks/useAdmin ";
 
 const Navbar = () => {
     const { user, signOutUser, loading } = useContext(AuthContext);
     const [showUserInfo, setShowUserInfo] = useState(false);
     const [cart] = useCart();
+    const [isAdmin] = useAdmin();
     const handleSignOut = () => {
         signOutUser()
             .then(() => {
@@ -41,6 +43,12 @@ const Navbar = () => {
                     <NavLink to="/menu" className={navLinkStyle}>Our Menu</NavLink>
                     <NavLink to="/shop/salad" className={navLinkStyle}>Our Shop</NavLink>
                     <NavLink to="/contact" className={navLinkStyle}>Contact Us</NavLink>
+                    {
+                        user && isAdmin && <Link to="/dashboard/adminHome">Dashboard</Link>
+                    }
+                    {
+                        user && !isAdmin && <Link to="/dashboard/userHome">Dashboard</Link>
+                    }
                     {!user && !loading && <NavLink to="/login" className={navLinkStyle}>Login</NavLink>}
                     {!user && !loading && <NavLink to="/signup" className={navLinkStyle}>SignUp</NavLink>}
                 </div>
