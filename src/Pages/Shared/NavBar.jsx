@@ -10,6 +10,7 @@ const Navbar = () => {
     const [showUserInfo, setShowUserInfo] = useState(false);
     const [cart] = useCart();
     const [isAdmin] = useAdmin();
+    
     const handleSignOut = () => {
         signOutUser()
             .then(() => {
@@ -44,10 +45,10 @@ const Navbar = () => {
                     <NavLink to="/shop/salad" className={navLinkStyle}>Our Shop</NavLink>
                     <NavLink to="/contact" className={navLinkStyle}>Contact Us</NavLink>
                     {
-                        user && isAdmin && <Link to="/dashboard/adminHome">Dashboard</Link>
+                        user && isAdmin && <NavLink className={navLinkStyle} to="/dashboard/adminHome">Dashboard</NavLink>
                     }
                     {
-                        user && !isAdmin && <Link to="/dashboard/userHome">Dashboard</Link>
+                        user && !isAdmin && <NavLink className={navLinkStyle} to="/dashboard/userHome">Dashboard</NavLink>
                     }
                     {!user && !loading && <NavLink to="/login" className={navLinkStyle}>Login</NavLink>}
                     {!user && !loading && <NavLink to="/signup" className={navLinkStyle}>SignUp</NavLink>}

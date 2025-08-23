@@ -60,7 +60,7 @@ const AuthProvider = ({ children }) => {
                 localStorage.removeItem('access-token');
             }
             console.log("State Captured", currentUser);
-            setLoading(false);
+            // setLoading(false);
         });
         return () => {
             return unsubscribe();

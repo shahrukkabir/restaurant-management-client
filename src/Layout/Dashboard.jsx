@@ -7,6 +7,12 @@ const Dashboard = () => {
     const [cart] = useCart();
     const [isAdmin] = useAdmin();
 
+        // Common link style
+    const linkStyle = ({ isActive }) =>
+        isActive
+            ? "flex items-center gap-2 font-semibold text-white bg-black p-2 rounded"
+            : " ";
+
     return (
         <div className="flex">
             {/* Sidebar */}
@@ -21,31 +27,31 @@ const Dashboard = () => {
                     {isAdmin ? (
                         <>
                             <li>
-                                <NavLink to="/dashboard/adminHome">
+                                <NavLink to="/dashboard/adminHome" className={linkStyle}>
                                     <FaHome />
                                     Admin Home
                                 </NavLink>
                             </li>
                             <li>
-                                <NavLink to="/dashboard/addItems">
+                                <NavLink to="/dashboard/addItems" className={linkStyle}>
                                     <FaUtensils />
                                     Add Items
                                 </NavLink>
                             </li>
                             <li>
-                                <NavLink to="/dashboard/manageItems">
+                                <NavLink to="/dashboard/manageItems" className={linkStyle}>
                                     <FaList />
                                     Manage Items
                                 </NavLink>
                             </li>
                             <li>
-                                <NavLink to="/dashboard/manageBookings">
+                                <NavLink to="/dashboard/manageBookings" className={linkStyle}>
                                     <FaBook />
                                     Manage Bookings
                                 </NavLink>
                             </li>
                             <li>
-                                <NavLink to="/dashboard/allUsers">
+                                <NavLink to="/dashboard/allUsers" className={linkStyle}>
                                     <FaUsers />
                                     All Users
                                 </NavLink>
@@ -54,37 +60,37 @@ const Dashboard = () => {
                     ) : (
                         <>
                             <li>
-                                <NavLink to="/dashboard/userHome">
+                                <NavLink to="/dashboard/userHome" className={linkStyle}>
                                     <FaHome />
                                     User Home
                                 </NavLink>
                             </li>
                             <li>
-                                <NavLink to="/dashboard/reservation">
+                                <NavLink to="/dashboard/reservation" className={linkStyle}>
                                     <FaCalendar />
                                     Reservation
                                 </NavLink>
                             </li>
                             <li>
-                                <NavLink to="/dashboard/paymentHistory">
+                                <NavLink to="/dashboard/paymentHistory" className={linkStyle}>
                                     <FaWallet />
                                     Payment History
                                 </NavLink>
                             </li>
                             <li>
-                                <NavLink to="/dashboard/cart">
+                                <NavLink to="/dashboard/cart" className={linkStyle}>
                                     <FaShoppingCart />
                                     My Cart ({cart.length})
                                 </NavLink>
                             </li>
                             <li>
-                                <NavLink to="/dashboard/review">
+                                <NavLink to="/dashboard/review" className={linkStyle}>
                                     <FaAd />
                                     Add Review
                                 </NavLink>
                             </li>
                             <li>
-                                <NavLink to="/dashboard/bookings">
+                                <NavLink to="/dashboard/bookings" className={linkStyle}>
                                     <FaList />
                                     My Booking
                                 </NavLink>
