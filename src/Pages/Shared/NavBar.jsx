@@ -10,7 +10,10 @@ const Navbar = () => {
     const [showUserInfo, setShowUserInfo] = useState(false);
     const [cart] = useCart();
     const [isAdmin] = useAdmin();
-    
+
+    console.log(loading);
+
+
     const handleSignOut = () => {
         signOutUser()
             .then(() => {
@@ -50,40 +53,47 @@ const Navbar = () => {
                     {
                         user && !isAdmin && <NavLink className={navLinkStyle} to="/dashboard/userHome">Dashboard</NavLink>
                     }
-                    {!user && !loading && <NavLink to="/login" className={navLinkStyle}>Login</NavLink>}
-                    {!user && !loading && <NavLink to="/signup" className={navLinkStyle}>SignUp</NavLink>}
                 </div>
 
                 {/* Right Icons */}
                 <div className="relative flex items-center gap-4">
-                    <Link to="/dashboard/cart" className="relative">
-                        <FaShoppingCart className="text-xl cursor-pointer" />
-                        {cart.length > 0 && (
-                            <span className="absolute -top-4 -right-3 bg-yellow-400 text-black text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
-                                {cart.length}
-                            </span>
-                        )}
-                    </Link>
+                    {user ? (
+                        <>
+                            {/* Cart Icon */}
+                            <Link to="/dashboard/cart" className="relative">
+                                <FaShoppingCart className="text-xl cursor-pointer" />
+                                {cart.length > 0 && (
+                                    <span className="absolute -top-4 -right-3 bg-yellow-400 text-black text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
+                                        {cart.length}
+                                    </span>
+                                )}
+                            </Link>
 
-                    {loading ? (<span className="loading loading-spinner text-warning"></span>) : user ? (
-                        <div className="relative">
-                            <button onClick={toggleUserInfo} className="focus:outline-none">
-                                <FaUserCircle className="text-2xl cursor-pointer" />
-                            </button>
-                            {showUserInfo && (
-                                <div className="absolute right-0 mt-2 bg-white text-black text-sm p-2 rounded shadow-lg z-20 w-52">
-                                    <p className="break-words">{user.email}</p>
-                                    <button onClick={handleSignOut} className="mt-2 w-full bg-red-500 hover:bg-red-600 text-white text-sm py-1 px-3 rounded" > Sign Out </button>
-                                </div>
-                            )}
-                        </div>
-                    ) :
-                        (
-                            <NavLink className="flex items-center gap-2">
-                                <FaUserCircle className="text-xl" />
-                            </NavLink>
-                        )}
+                            {/* User Icon / Info */}
+                            <div className="relative">
+                                <button onClick={toggleUserInfo} className="focus:outline-none">
+                                    <FaUserCircle className="text-2xl cursor-pointer" />
+                                </button>
+                                {showUserInfo && (
+                                    <div className="absolute right-0 mt-2 bg-white text-black text-sm p-2 rounded shadow-lg z-20 w-52">
+                                        <p className="break-words">{user.email}</p>
+                                        <button
+                                            onClick={handleSignOut}
+                                            className="mt-2 w-full bg-red-500 hover:bg-red-600 text-white text-sm py-1 px-3 rounded"
+                                        >
+                                            Sign Out
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+                        </>
+                    ) : (
+                        <NavLink to="/login" className="text-sm uppercase font-semibold hover:text-yellow-400">
+                            Login
+                        </NavLink>
+                    )}
                 </div>
+
             </div>
         </div>
     );

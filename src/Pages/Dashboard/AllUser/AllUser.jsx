@@ -4,7 +4,7 @@ import SectionTitle from '../../../Components/SectionTitle/SectionTitle';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import Swal from 'sweetalert2';
-import useAxiosSecure, { axiosSecure } from '../../../hooks/useAxiosSecure';
+import useAxiosSecure from '../../../hooks/useAxiosSecure';
 
 const AllUser = () => {
     const axiosSecure = useAxiosSecure();
@@ -15,6 +15,9 @@ const AllUser = () => {
             return res.data;
         }
     });
+
+    console.log(users);
+    
 
     const handleDelete = (id) => {
         Swal.fire({

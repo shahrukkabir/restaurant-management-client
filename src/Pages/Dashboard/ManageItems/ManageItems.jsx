@@ -28,7 +28,7 @@ const ManageItems = () => {
                         .then(res => {
                             if (res.data.deletedCount > 0) {
                                 Swal.fire("Deleted!", "User has been deleted.", "success");
-                                refetch(); // 👈 after delete, reload users
+                                refetch();
                             }
                         });
                 }
